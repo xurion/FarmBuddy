@@ -37,14 +37,44 @@ function print_r(t)
     print()
 end
 
---player = windower.ffxi.get_player()
---player_name = player.name
+function split(msg, match)
+    local length = msg:len()
+    local splitarr = {}
+    local u = 1
+    while u < length do
+        local nextanch = msg:find(match,u)
+        if nextanch ~= nil then
+            splitarr[#splitarr+1] = msg:sub(u,nextanch-1)
+            if nextanch~=length then
+                u = nextanch+1
+            else
+                u = length
+            end
+        else
+            splitarr[#splitarr+1] = msg:sub(u,length)
+            u = length
+        end
+    end
+    return splitarr
+end
 
-kill_count = 0
 farm_data = {}
 
 windower.register_event('addon command', function (...)
-    windower.send_command('@input /echo Executed addon command event')
+  local concat_args = table.concat({...}, ' ')
+  local args = split(concat_args, ' ')
+  if args[1] ~= nil then
+    if args[1]:upper() == "REPORT" then
+      local report = {}
+      for mob_name, mob_data in pairs(farm_data) do
+        local kills = mob_data.kills
+        local drop_data = mob_data.drops
+        for drop_name, amount in pairs(drop_data) do
+          print(kills .. ' ' .. mob_name .. ' kills resulted in ' .. amount .. ' ' .. drop_name .. '(s)')
+        end
+      end
+    end
+  end
 end)
 
 windower.register_event('incoming text', function(_, text, _, _, blocked)
