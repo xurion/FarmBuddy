@@ -41,6 +41,7 @@ end
 --player_name = player.name
 
 kill_count = 0
+farm_data = {}
 
 windower.register_event('addon command', function (...)
     windower.send_command('@input /echo Executed addon command event')
@@ -51,10 +52,33 @@ windower.register_event('incoming text', function(_, text, _, _, blocked)
         return
     end
 
-    local kill_confirmation_regex = 'Xurion defeats.*'
-    local is_kill_confirmation = string.match(text, kill_confirmation_regex)
-    if is_kill_confirmation then
-      kill_count = kill_count + 1
-      print('Total kills: ' .. kill_count)
+    local kill_confirmation_regex = 'Xurion defeats the (.*).'
+    local killed_mob_name = string.match(text, kill_confirmation_regex)
+
+    if killed_mob_name then
+      if farm_data[killed_mob_name] == nil then
+        farm_data[killed_mob_name] = {
+          kills = 0,
+          drops = {}
+        }
+      end
+
+      farm_data[killed_mob_name]["kills"] = farm_data[killed_mob_name]["kills"] + 1
     end
+
+    local drop_confirmation_regex = 'You find an? (.*) on the (.*).'
+    local drop_name, drop_mob_name = string.match(text, drop_confirmation_regex)
+    if drop_name and drop_mob_name then
+
+      if farm_data[drop_mob_name]['drops'][drop_name] == nil then
+        farm_data[drop_mob_name]['drops'][drop_name] = 0
+      end
+
+      farm_data[drop_mob_name]['drops'][drop_name] = farm_data[drop_mob_name]['drops'][drop_name] + 1
+
+      --print('Drop info: ' .. drop_name .. ' from ' .. drop_mob_name)
+      --windower.send_command('@input /echo Drop info: ' .. drop_name .. ' from ' .. drop_mob_name)
+    end
+
+    print_r(farm_data)
 end)
