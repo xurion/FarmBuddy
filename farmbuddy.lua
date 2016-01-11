@@ -58,6 +58,11 @@ function split(msg, match)
     return splitarr
 end
 
+function round(num, idp)
+  local mult = 10^(idp or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
+
 farm_data = {}
 
 windower.register_event('addon command', function (...)
@@ -70,7 +75,8 @@ windower.register_event('addon command', function (...)
         local kills = mob_data.kills
         local drop_data = mob_data.drops
         for drop_name, amount in pairs(drop_data) do
-          print(kills .. ' ' .. mob_name .. ' kills resulted in ' .. amount .. ' ' .. drop_name .. '(s)')
+          local percentage = amount / kills * 100
+          print(kills .. ' ' .. mob_name .. ' kills resulted in ' .. amount .. ' ' .. drop_name .. '(s), which is a ' .. round(percentage, 2) .. '% drop rate.')
         end
       end
     end
@@ -110,5 +116,5 @@ windower.register_event('incoming text', function(_, text, _, _, blocked)
       --windower.send_command('@input /echo Drop info: ' .. drop_name .. ' from ' .. drop_mob_name)
     end
 
-    print_r(farm_data)
+    -- print_r(farm_data)
 end)
