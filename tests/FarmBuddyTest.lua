@@ -28,6 +28,11 @@ expose('an exposed test', function()
 
             assert.is.equal(_G._addon.author, 'Xurion of Bismarck')
         end)
+
+        it('should set the _addon version', function ()
+
+            assert.is.truthy(_G._addon.version)
+        end)
     end)
 end)
 

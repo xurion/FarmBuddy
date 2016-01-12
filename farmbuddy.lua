@@ -1,8 +1,8 @@
 _addon.commands = {'farmbuddy', 'fb'}
 _addon.name = 'FarmBuddy'
 _addon.author = 'Xurion of Bismarck'
--- _addon.version = '0.0.1'
---
+_addon.version = '1.0.0'
+
 -- function split(msg, match)
 --     local length = msg:len()
 --     local splitarr = {}
