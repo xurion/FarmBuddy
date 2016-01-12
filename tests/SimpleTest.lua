@@ -1,29 +1,37 @@
 -- Simple Unit tests
 
-lu = require('luaunit/luaunit')
-
 func = function (val)
   return val
 end
 
-function test_true_is_true()
-  lu.assertEquals(true, true)
-end
+mod = {
+  func = function (val)
+    return val
+  end
+}
 
-function test_two_numbers_add()
-  lu.assertEquals(1 + 2, 3)
-end
+describe("SimpleTest", function()
 
-function test_that_numbers_do_not_add()
-  lu.assertNotEquals(1 + 2, 4)
-end
+  it('should assert true equals true', function ()
+    assert.is_true(true)
+  end)
 
-function test_function_data_type()
-  lu.assertIsFunction(func)
-end
+  it('should assert that two numbers together equal the expected number', function ()
+    assert.is_equal(1 + 2, 3)
+  end)
 
-function test_function_returns_value()
-  lu.assertEquals(func('a'), 'a')
-end
+  it('should assert that two numbers toegther do not equal a number that is not the expected number', function ()
+    assert.is_not_equal(1 + 2, 4)
+  end)
 
-lu.LuaUnit:run()
+  it('should assert the returned value from a function is as expected', function ()
+    assert(func('a'), 'a')
+  end)
+
+  it('should be able to spy on a function', function ()
+    local func_spy = spy.on(mod, 'func')
+    mod.func('b')
+    assert.spy(func_spy).was.called_with('b')
+  end)
+
+end)

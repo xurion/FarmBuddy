@@ -1,0 +1,6 @@
+return {
+  _all = {},
+  default = {
+    verbose = true
+  }
+}
