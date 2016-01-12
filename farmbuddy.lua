@@ -3,6 +3,8 @@ _addon.name = 'FarmBuddy'
 _addon.author = 'Xurion of Bismarck'
 _addon.version = '1.0.0'
 
+farm_data = {}
+
 -- function split(msg, match)
 --     local length = msg:len()
 --     local splitarr = {}
@@ -28,8 +30,6 @@ _addon.version = '1.0.0'
 --   local mult = 10^(idp or 0)
 --   return math.floor(num * mult + 0.5) / mult
 -- end
---
--- farm_data = {}
 --
 -- windower.register_event('addon command', function (...)
 --   local concat_args = table.concat({...}, ' ')

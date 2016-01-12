@@ -33,6 +33,11 @@ expose('an exposed test', function()
 
             assert.is.truthy(_G._addon.version)
         end)
+
+        it('should set the farm_data to an empty table', function ()
+
+            assert.is.same(_G.farm_data, {})
+        end)
     end)
 end)
 
