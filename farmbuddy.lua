@@ -1,9 +1,6 @@
--- if _addon == nil then _addon = {} end
--- if windower == nil then windower = {} end
-
 _addon.commands = {'farmbuddy', 'fb'}
 _addon.name = 'FarmBuddy'
--- _addon.author = 'Xurion of Bismarck'
+_addon.author = 'Xurion of Bismarck'
 -- _addon.version = '0.0.1'
 --
 -- function split(msg, match)

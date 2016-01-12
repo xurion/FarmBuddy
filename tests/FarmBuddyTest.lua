@@ -23,6 +23,11 @@ expose('an exposed test', function()
 
             assert.is.equal(_G._addon.name, 'FarmBuddy')
         end)
+
+        it('should set the _addon author as Xurion of Bismarck', function ()
+
+            assert.is.equal(_G._addon.author, 'Xurion of Bismarck')
+        end)
     end)
 end)
 
