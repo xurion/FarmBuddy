@@ -2,16 +2,25 @@
 
 package.path = '../?.lua;./?.lua'
 
-_addon = {}
-windower = {
-  register_event = function () end
-}
+expose('an exposed test', function()
 
-lu = require('luaunit/luaunit')
-fb = require 'FarmBuddy'
+    describe('FarmBuddy', function()
 
-function test_that_ZeroCheck_check_returns_true_when_the_argument_is_zero()
-  lu.assertEquals(true, true)
-end
+        before_each(function ()
 
-lu.LuaUnit:run()
+            _G._addon = {}
+
+            -- windower = {
+            -- register_event = function () end
+            -- }
+
+            require('FarmBuddy')
+
+        end)
+
+        it('should set the available _addon commands to be farmbuddy and fb', function()
+
+            assert.are.same(_G._addon.commands, {'farmbuddy', 'fb'})
+        end)
+    end)
+end)
