@@ -3,6 +3,9 @@
 package.path = '../?.lua;./?.lua'
 
 _addon = {}
+windower = {
+  register_event = function () end
+}
 
 lu = require('luaunit/luaunit')
 fb = require 'FarmBuddy'
