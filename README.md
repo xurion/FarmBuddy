@@ -1,20 +1,17 @@
-Author: Byrth
-Version: 1.2
-Answering Machine with basic functionality
+Author: Xurion of Bismarck
+Version: 0.0.1
+FarmBuddy - the farm tracking tool
 
-Abbreviation: //am, //answeringmachine
+Abbreviation: //fb, //farmbuddy
 
 Commands:
-* list : Lists the number of messages recorded from each person that has sent you a tell.
-* play <name> : Plays available messages. Will default to playing all messages if a name is not provided.
-* clear <name> : Clears available messages. Will default to clearing all messages if a name is not provided.
-* help : Lists commands in game.
-* msg <message> : Sets your away message, which will be sent to non-GMs the first time they send you a tell after loading the plugin or clearing messages from them.
+* report : Lists all mobs killed with their drops and drop rates.
+* reset : Resets all farm data.
+* pause : Pauses tracking of farm data.
+* resume : Resumes tracking of farm data.
 
 Purpose:
-To record conversations and play them back at your leisure.
+Track drops for all enemies and calculate drop rate percentages.
 
 Version History:
-1.3 - Adjusted trim function to prevent error when dealing with 15 character names.
-1.2 - Timestamps added. Massive refactoring. Outgoing tells now included.
-1.1 - Version History started, fundamental recording and answering features created.
+0.0.1 - Pre release.

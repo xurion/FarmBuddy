@@ -72,12 +72,17 @@ windower.register_event('addon command', function (...)
     if args[1]:upper() == "REPORT" then
       local report = {}
       for mob_name, mob_data in pairs(farm_data) do
+        report.insert(mob_name .. '(' .. kills .. ' kills)')
         local kills = mob_data.kills
         local drop_data = mob_data.drops
         for drop_name, amount in pairs(drop_data) do
           local percentage = amount / kills * 100
-          print(kills .. ' ' .. mob_name .. ' kills resulted in ' .. amount .. ' ' .. drop_name .. '(s), which is a ' .. round(percentage, 2) .. '% drop rate.')
+          report.insert(drop_name .. ': ' .. amount .. '/' .. percentage .. '%')
         end
+        report.insert('')
+      end
+      for line in report do
+        print(line)
       end
     end
   end
@@ -112,8 +117,6 @@ windower.register_event('incoming text', function(_, text, _, _, blocked)
 
       farm_data[drop_mob_name]['drops'][drop_name] = farm_data[drop_mob_name]['drops'][drop_name] + 1
 
-      --print('Drop info: ' .. drop_name .. ' from ' .. drop_mob_name)
-      --windower.send_command('@input /echo Drop info: ' .. drop_name .. ' from ' .. drop_mob_name)
     end
 
     -- print_r(farm_data)

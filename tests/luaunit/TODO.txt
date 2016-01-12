@@ -1,0 +1,96 @@
+
+TODO Future:
+============
+- travis lua 5.3
+- add the ability to count the number of assertions that should have been executed in the test
+- mention that general error are correctly handled by luaunit as failures
+- detect if a functions creates new global variables.
+- validate output with ignored tests (0 failures or some failures)
+- report test duration everywhere
+- allow to skip tests
+- make a difference between errors and failures
+- randomized testing
+- provide a luarock package. See: https://rocks.moonscript.org/modules/rjpcomputing/luaunit
+- compatibility with LuaUnit v2.0 of rjbcomputing
+- coloured output
+- global setup / teardown
+- class setup / teardown
+- add date and duration to tap output
+- better error messages for table assertions:
+	+ expected length of X, got Y
+	+ keys differing in table 1 and 2
+- XML: report system information
+- better error messages for string differences
+- provide a legacy wrapFunction()
+
+Nice to have: 
+============
+- stack unwrapping like in py.test
+
+Done since 3.1:
+===============
+x lua 5.3 
+
+Done since 3.0:
+===============
+x check documentation link glitch to TAP 
+x doc: report how to handle global space pollution/restriction
+x doc: adapt all examples to new way of requireing luaunit
+x less global space pollution
+x doc: move description of table printing to an annex
+x validate well-formed XML with a DTD
+x validate test output (TAP, ...) with functional tests
+x test failures, verify that output is correct
+x improve testresult: contain the list of tests, with status of each test
+x strip luaunit stack more intelligently: exclude content of luaunit
+x mention mailing-list in README.md
+x mention version in documentation
+x mention mailing-list
+x mention the new global variable config for displaying table content
+x fix display of tables with recursive references
+x improve display of nested tables in error messages
+x improve display of multiline strings in error messages
+
+x Junit XML Ouptut:
+	x test and fix xml escaping
+	x validate xml with apache and jenkins schemas
+	+ xml format:
+		- add proper xml formatting header
+		- report number of failures within <testsuite> element
+		- report duration
+		- add properties describe the environment
+
+Done:
+============
+x add other types of output
+x assert with matching of the error message
+x finish user documentation
+x switch version 3.0
+x add assertMatch for strings
+x document --name
+x improve junit xml output (one file, choice of filename) 
+x display number of non selected tests
+x assertIs with all types
+x mention one file distribution
+x improve TAP output: pre-calculate test numbers, display test summary as comment
+x test error messages of assertStrMatches and all error functions
+x assertNil + assertNotNil
+x readthedocs integration
+x add travis-ci badges to README
+x filter by pattern
+x support --version
+x support --help
+x replace methodInstance with real test name in reports
+x better error messages for wrong command line option, or wrong output type
+x control verbosity and output type with command line
+x display time to run all tests
+x move all assertions together
+x better error display of assertIsXXX functions
+x add assertContains for strings
+x add assertIsNumber, assertIsXXX
+x table assertions
+x sequence asserts
+x compatibilty tests with several version of lua
+x add assertNotEquals
+
+
