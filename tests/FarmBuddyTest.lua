@@ -105,6 +105,21 @@ expose('an exposed test', function()
                     }
                 })
             end)
+
+            it('should store different monster type kills', function ()
+
+                local addon = get_addon()
+                addon.handle_incoming_message('Xurion defeats the MonsterA.')
+                addon.handle_incoming_message('Xurion defeats the MonsterB.')
+                assert.is.same(addon.farm_data, {
+                    MonsterA = {
+                        kills = 1
+                    },
+                    MonsterB = {
+                        kills = 1
+                    }
+                })
+            end)
         end)
     end)
 end)
