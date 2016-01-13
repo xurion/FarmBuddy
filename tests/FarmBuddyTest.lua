@@ -76,6 +76,12 @@ expose('an exposed test', function()
                 local addon = get_addon()
                 assert.is.equal(addon.handle_incoming_message(''), false)
             end)
+
+            it('should return false if the text argument is nil', function ()
+
+                local addon = get_addon()
+                assert.is.equal(addon.handle_incoming_message(), false)
+            end)
         end)
     end)
 end)

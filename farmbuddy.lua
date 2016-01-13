@@ -9,7 +9,7 @@ FarmBuddy.farm_data = {}
 
 FarmBuddy.handle_incoming_message = function (text)
 
-    if text == '' then return false end
+    if text == '' or text == nil then return false end
 end
 
 windower.register_event('incoming text', function() end)
