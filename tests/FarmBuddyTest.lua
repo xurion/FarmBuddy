@@ -88,7 +88,21 @@ expose('an exposed test', function()
                 local addon = get_addon()
                 addon.handle_incoming_message('Xurion defeats the Monster.')
                 assert.is.same(addon.farm_data, {
-                    Monster = {}
+                    Monster = {
+                        kills = 1
+                    }
+                })
+            end)
+
+            it('should increment the kill count of multiple kills of the same monster', function ()
+
+                local addon = get_addon()
+                addon.handle_incoming_message('Xurion defeats the Monster.')
+                addon.handle_incoming_message('Xurion defeats the Monster.')
+                assert.is.same(addon.farm_data, {
+                    Monster = {
+                        kills = 2
+                    }
                 })
             end)
         end)

@@ -16,8 +16,13 @@ FarmBuddy.handle_incoming_message = function(text)
 
     if killed_mob_name then
         if FarmBuddy.farm_data[killed_mob_name] == nil then
-            FarmBuddy.farm_data[killed_mob_name] = {}
+            FarmBuddy.farm_data[killed_mob_name] = {
+
+                kills = 0
+            }
         end
+
+        FarmBuddy.farm_data[killed_mob_name].kills = FarmBuddy.farm_data[killed_mob_name].kills + 1
     end
 end
 
