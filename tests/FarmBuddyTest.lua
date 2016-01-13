@@ -60,6 +60,14 @@ expose('an exposed test', function()
 
             assert.spy(register_event_listener_spy).was.called_with('incoming text', match._)
         end)
+
+        it('should register the addon command event to windower', function ()
+
+            local register_event_listener_spy = spy.on(_G.windower, 'register_event')
+            get_addon()
+
+            assert.spy(register_event_listener_spy).was.called_with('addon command', match._)
+        end)
     end)
 end)
 
