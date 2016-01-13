@@ -1,4 +1,4 @@
-_addon.commands = {'farmbuddy', 'fb'}
+_addon.commands = { 'farmbuddy', 'fb' }
 _addon.name = 'FarmBuddy'
 _addon.author = 'Xurion of Bismarck'
 _addon.version = '1.0.0'
@@ -7,13 +7,22 @@ local FarmBuddy = {}
 
 FarmBuddy.farm_data = {}
 
-FarmBuddy.handle_incoming_message = function (text)
+FarmBuddy.handle_incoming_message = function(text)
 
     if text == '' or text == nil then return false end
+
+    local kill_confirmation_regex = 'Xurion defeats the (.*)%.'
+    local killed_mob_name = string.match(text, kill_confirmation_regex)
+
+    if killed_mob_name then
+        if FarmBuddy.farm_data[killed_mob_name] == nil then
+            FarmBuddy.farm_data[killed_mob_name] = {}
+        end
+    end
 end
 
 windower.register_event('incoming text', function() end)
-windower.register_event('addon command', function () end)
+windower.register_event('addon command', function() end)
 
 return FarmBuddy
 

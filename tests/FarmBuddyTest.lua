@@ -82,6 +82,15 @@ expose('an exposed test', function()
                 local addon = get_addon()
                 assert.is.equal(addon.handle_incoming_message(), false)
             end)
+
+            it('should store kill information when a kill confirmtion message is handled', function ()
+
+                local addon = get_addon()
+                addon.handle_incoming_message('Xurion defeats the Monster.')
+                assert.is.same(addon.farm_data, {
+                    Monster = {}
+                })
+            end)
         end)
     end)
 end)
