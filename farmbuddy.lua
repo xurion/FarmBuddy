@@ -18,12 +18,24 @@ FarmBuddy.handle_incoming_message = function(text)
         if FarmBuddy.farm_data[killed_mob_name] == nil then
             FarmBuddy.farm_data[killed_mob_name] = {
 
-                kills = 0
+                kills = 0,
+                drops = {}
             }
         end
 
         FarmBuddy.farm_data[killed_mob_name].kills = FarmBuddy.farm_data[killed_mob_name].kills + 1
     end
+
+    local drop_confirmation_regex = 'You find an? (.*) on the (.*)%.'
+    local drop_name, drop_mob_name = string.match(text, drop_confirmation_regex)
+    if drop_name and drop_mob_name then
+
+        if FarmBuddy.farm_data[drop_mob_name].drops[drop_name] == nil then
+            FarmBuddy.farm_data[drop_mob_name].drops[drop_name] = 0
+        end
+
+        FarmBuddy.farm_data[drop_mob_name].drops[drop_name] = FarmBuddy.farm_data[drop_mob_name].drops[drop_name] + 1
+     end
 end
 
 windower.register_event('incoming text', function() end)

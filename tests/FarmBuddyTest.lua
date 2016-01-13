@@ -89,7 +89,8 @@ expose('an exposed test', function()
                 addon.handle_incoming_message('Xurion defeats the Monster.')
                 assert.is.same(addon.farm_data, {
                     Monster = {
-                        kills = 1
+                        kills = 1,
+                        drops = {}
                     }
                 })
             end)
@@ -101,7 +102,8 @@ expose('an exposed test', function()
                 addon.handle_incoming_message('Xurion defeats the Monster.')
                 assert.is.same(addon.farm_data, {
                     Monster = {
-                        kills = 2
+                        kills = 2,
+                        drops = {}
                     }
                 })
             end)
@@ -113,10 +115,27 @@ expose('an exposed test', function()
                 addon.handle_incoming_message('Xurion defeats the MonsterB.')
                 assert.is.same(addon.farm_data, {
                     MonsterA = {
-                        kills = 1
+                        kills = 1,
+                        drops = {}
                     },
                     MonsterB = {
-                        kills = 1
+                        kills = 1,
+                        drops = {}
+                    }
+                })
+            end)
+
+            it('should store drop information when a drop message is handled', function ()
+
+                local addon = get_addon()
+                addon.handle_incoming_message('Xurion defeats the Monster.')
+                addon.handle_incoming_message('You find a Crystal on the Monster.')
+                assert.is.same(addon.farm_data, {
+                    Monster = {
+                        kills = 1,
+                        drops = {
+                            Crystal = 1
+                        }
                     }
                 })
             end)
