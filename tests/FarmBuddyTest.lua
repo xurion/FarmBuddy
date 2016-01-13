@@ -11,7 +11,7 @@ expose('an exposed test', function()
         local get_addon = function ()
 
             package.loaded['FarmBuddy'] = nil
-            require('FarmBuddy')
+            return require('FarmBuddy')
         end
 
         before_each(function()
@@ -49,8 +49,8 @@ expose('an exposed test', function()
 
         it('should set the farm_data to an empty table', function ()
 
-            get_addon()
-            assert.is.same(_G.farm_data, {})
+            local addon = get_addon()
+            assert.is.same(addon.farm_data, {})
         end)
 
         it('should register the incoming text event to windower', function ()
@@ -67,6 +67,15 @@ expose('an exposed test', function()
             get_addon()
 
             assert.spy(register_event_listener_spy).was.called_with('addon command', match._)
+        end)
+
+        describe('handle_incoming_text()', function()
+
+            it('should return false if the text argument is an empty string', function ()
+
+                local addon = get_addon()
+                assert.is.equal(addon.handle_incoming_message(''), false)
+            end)
         end)
     end)
 end)

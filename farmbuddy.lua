@@ -3,10 +3,19 @@ _addon.name = 'FarmBuddy'
 _addon.author = 'Xurion of Bismarck'
 _addon.version = '1.0.0'
 
-farm_data = {}
+local FarmBuddy = {}
+
+FarmBuddy.farm_data = {}
+
+FarmBuddy.handle_incoming_message = function (text)
+
+    if text == '' then return false end
+end
 
 windower.register_event('incoming text', function() end)
 windower.register_event('addon command', function () end)
+
+return FarmBuddy
 
 -- function split(msg, match)
 --     local length = msg:len()
