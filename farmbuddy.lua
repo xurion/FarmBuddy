@@ -5,6 +5,8 @@ _addon.version = '1.0.0'
 
 farm_data = {}
 
+windower.register_event('incoming text', function() end)
+
 -- function split(msg, match)
 --     local length = msg:len()
 --     local splitarr = {}

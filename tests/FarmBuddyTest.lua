@@ -2,41 +2,63 @@
 
 package.path = '../?.lua;./?.lua'
 
+local match = require("luassert.match")
+
 expose('an exposed test', function()
 
     describe('FarmBuddy', function()
 
-        before_each(function()
-
-            _G._addon = {}
+        local get_addon = function ()
 
             package.loaded['FarmBuddy'] = nil
             require('FarmBuddy')
+        end
+
+        before_each(function()
+
+            _G._addon = {}
+            _G.windower = {
+
+                register_event = function () end
+            }
         end)
 
         it('should set the available _addon commands to be farmbuddy and fb', function()
 
+            get_addon()
             assert.are.same(_G._addon.commands, { 'farmbuddy', 'fb' })
         end)
 
         it('should set the _addon name to FarmBuddy', function()
 
+            get_addon()
             assert.is.equal(_G._addon.name, 'FarmBuddy')
         end)
 
         it('should set the _addon author as Xurion of Bismarck', function ()
 
+            get_addon()
             assert.is.equal(_G._addon.author, 'Xurion of Bismarck')
         end)
 
         it('should set the _addon version', function ()
 
+            get_addon()
             assert.is.truthy(_G._addon.version)
         end)
 
         it('should set the farm_data to an empty table', function ()
 
+            get_addon()
             assert.is.same(_G.farm_data, {})
+        end)
+
+        it('should register the incoming text event to windower', function ()
+
+            local register_event_listener_spy = spy.on(_G.windower, 'register_event')
+            get_addon()
+
+            assert.spy(register_event_listener_spy).was.called_with('incoming text', match._)
         end)
     end)
 end)
