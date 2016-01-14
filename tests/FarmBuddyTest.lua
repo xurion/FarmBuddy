@@ -207,6 +207,27 @@ expose('an exposed test', function()
 
                 assert.spy(windower_send_command_spy).was.called_with('Monster: 2 kills')
             end)
+
+            it('should report multiple numbers of kills when the command argument is report', function ()
+
+                local addon = get_addon()
+                addon.farm_data = {
+                    MonsterA = {
+                        kills = 2,
+                        drops = {}
+                    },
+                    MonsterB = {
+                        kills = 1,
+                        drops = {}
+                    }
+                }
+                local windower_send_command_spy = spy.on(_G.windower, 'send_command')
+
+                addon.handle_addon_command(_, 'report')
+
+                assert.spy(windower_send_command_spy).was.called_with('MonsterA: 2 kills')
+                assert.spy(windower_send_command_spy).was.called_with('MonsterB: 1 kill')
+            end)
         end)
     end)
 end)
