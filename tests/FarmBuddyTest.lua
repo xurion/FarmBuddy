@@ -19,7 +19,8 @@ expose('an exposed test', function()
             _G._addon = {}
             _G.windower = {
 
-                register_event = function () end
+                register_event = function () end,
+                send_command = function () end
             }
         end)
 
@@ -173,6 +174,38 @@ expose('an exposed test', function()
                 addon.handle_addon_command(_, 'reset')
 
                 assert.is.same(addon.farm_data, {})
+            end)
+
+            it('should report a kill when the command argument is report', function ()
+
+                local addon = get_addon()
+                addon.farm_data = {
+                    Monster = {
+                        kills = 1,
+                        drops = {}
+                    }
+                }
+                local windower_send_command_spy = spy.on(_G.windower, 'send_command')
+
+                addon.handle_addon_command(_, 'report')
+
+                assert.spy(windower_send_command_spy).was.called_with('Monster: 1 kill')
+            end)
+
+            it('should report the number of kills when the command argument is report', function ()
+
+                local addon = get_addon()
+                addon.farm_data = {
+                    Monster = {
+                        kills = 2,
+                        drops = {}
+                    }
+                }
+                local windower_send_command_spy = spy.on(_G.windower, 'send_command')
+
+                addon.handle_addon_command(_, 'report')
+
+                assert.spy(windower_send_command_spy).was.called_with('Monster: 2 kills')
             end)
         end)
     end)
