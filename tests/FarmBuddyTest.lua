@@ -151,6 +151,19 @@ expose('an exposed test', function()
                 })
             end)
         end)
+
+        describe('handle_addon_command()', function ()
+
+            it('should reset farm_data when the command argument is reset', function ()
+
+                local addon = get_addon()
+                addon.farm_data = {'mock data' }
+
+                addon.handle_addon_command('reset')
+
+                assert.is.same(addon.farm_data, {})
+            end)
+        end)
     end)
 end)
 

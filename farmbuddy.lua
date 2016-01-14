@@ -7,7 +7,7 @@ local FarmBuddy = {}
 
 FarmBuddy.farm_data = {}
 
-FarmBuddy.handle_incoming_message = function(_, text)
+FarmBuddy.handle_incoming_message = function (_, text)
 
     if text == '' or text == nil then return false end
 
@@ -36,6 +36,14 @@ FarmBuddy.handle_incoming_message = function(_, text)
 
         FarmBuddy.farm_data[drop_mob_name].drops[drop_name] = FarmBuddy.farm_data[drop_mob_name].drops[drop_name] + 1
      end
+end
+
+FarmBuddy.handle_addon_command = function (command)
+
+    if command ~= nil and command:lower() == 'reset' then
+
+        FarmBuddy.farm_data = {}
+    end
 end
 
 windower.register_event('incoming text', FarmBuddy.handle_incoming_message)
