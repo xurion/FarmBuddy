@@ -1,4 +1,4 @@
-_addon.commands = { 'farmbuddy', 'fb' }
+_addon.commands = {'farmbuddy', 'fb'}
 _addon.name = 'FarmBuddy'
 _addon.author = 'Xurion of Bismarck'
 _addon.version = '1.0.0'
@@ -7,7 +7,7 @@ local FarmBuddy = {}
 
 FarmBuddy.farm_data = {}
 
-FarmBuddy.handle_incoming_message = function(text)
+FarmBuddy.handle_incoming_message = function(_, text)
 
     if text == '' or text == nil then return false end
 
@@ -38,7 +38,7 @@ FarmBuddy.handle_incoming_message = function(text)
      end
 end
 
-windower.register_event('incoming text', function() end)
+windower.register_event('incoming text', FarmBuddy.handle_incoming_message)
 windower.register_event('addon command', function() end)
 
 return FarmBuddy

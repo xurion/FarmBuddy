@@ -53,12 +53,23 @@ expose('an exposed test', function()
             assert.is.same(addon.farm_data, {})
         end)
 
-        it('should register the incoming text event to windower', function ()
+        describe('incoming text event', function ()
 
-            local register_event_listener_spy = spy.on(_G.windower, 'register_event')
-            get_addon()
+            it('should register the incoming text event to windower', function ()
 
-            assert.spy(register_event_listener_spy).was.called_with('incoming text', match._)
+                local register_event_listener_spy = spy.on(_G.windower, 'register_event')
+                get_addon()
+
+                assert.spy(register_event_listener_spy).was.called_with('incoming text', match._)
+            end)
+
+            it('should register the handle_incoming_message function as the callback', function()
+
+                local register_event_listener_spy = spy.on(_G.windower, 'register_event')
+                local addon = get_addon()
+
+                assert.spy(register_event_listener_spy).was.called_with(match._, addon.handle_incoming_message)
+            end)
         end)
 
         it('should register the addon command event to windower', function ()
@@ -86,7 +97,7 @@ expose('an exposed test', function()
             it('should store kill information when a kill confirmtion message is handled', function ()
 
                 local addon = get_addon()
-                addon.handle_incoming_message('Xurion defeats the Monster.')
+                addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
                 assert.is.same(addon.farm_data, {
                     Monster = {
                         kills = 1,
@@ -98,8 +109,8 @@ expose('an exposed test', function()
             it('should increment the kill count of multiple kills of the same monster', function ()
 
                 local addon = get_addon()
-                addon.handle_incoming_message('Xurion defeats the Monster.')
-                addon.handle_incoming_message('Xurion defeats the Monster.')
+                addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
+                addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
                 assert.is.same(addon.farm_data, {
                     Monster = {
                         kills = 2,
@@ -111,8 +122,8 @@ expose('an exposed test', function()
             it('should store different monster type kills', function ()
 
                 local addon = get_addon()
-                addon.handle_incoming_message('Xurion defeats the MonsterA.')
-                addon.handle_incoming_message('Xurion defeats the MonsterB.')
+                addon.handle_incoming_message(_, 'Xurion defeats the MonsterA.')
+                addon.handle_incoming_message(_, 'Xurion defeats the MonsterB.')
                 assert.is.same(addon.farm_data, {
                     MonsterA = {
                         kills = 1,
@@ -128,8 +139,8 @@ expose('an exposed test', function()
             it('should store drop information when a drop message is handled', function ()
 
                 local addon = get_addon()
-                addon.handle_incoming_message('Xurion defeats the Monster.')
-                addon.handle_incoming_message('You find a Crystal on the Monster.')
+                addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
+                addon.handle_incoming_message(_, 'You find a Crystal on the Monster.')
                 assert.is.same(addon.farm_data, {
                     Monster = {
                         kills = 1,
