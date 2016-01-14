@@ -38,9 +38,16 @@ FarmBuddy.handle_incoming_message = function (_, text)
      end
 end
 
-FarmBuddy.handle_addon_command = function (command)
+FarmBuddy.handle_addon_command = function (_, command)
 
-    if command ~= nil and command:lower() == 'reset' then
+    local action
+
+    if command ~= nil then
+
+        action = command:lower()
+    end
+
+    if action == 'reset' then
 
         FarmBuddy.farm_data = {}
     end
