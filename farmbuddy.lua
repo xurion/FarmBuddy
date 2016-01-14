@@ -3,6 +3,11 @@ _addon.name = 'FarmBuddy'
 _addon.author = 'Xurion of Bismarck'
 _addon.version = '1.0.0'
 
+function round(num, idp)
+    local mult = 10^(idp or 0)
+    return math.floor(num * mult + 0.5) / mult
+end
+
 local FarmBuddy = {}
 
 FarmBuddy.farm_data = {}
@@ -58,6 +63,9 @@ FarmBuddy.handle_addon_command = function (_, command)
                 kill_plural = ''
             end
             windower.send_command(monster_name .. ': ' .. monster_data.kills .. ' kill' .. kill_plural)
+            for drop_name, drop_amount in pairs(monster_data.drops) do
+                windower.send_command(drop_name .. ': ' .. drop_amount .. '/' .. monster_data.kills .. ' (' .. round(drop_amount / monster_data.kills * 100) .. '%)')
+            end
         end
     end
 end

@@ -228,6 +228,31 @@ expose('an exposed test', function()
                 assert.spy(windower_send_command_spy).was.called_with('MonsterA: 2 kills')
                 assert.spy(windower_send_command_spy).was.called_with('MonsterB: 1 kill')
             end)
+
+            it('should report numbers of drops and drop rate percentage when the command argument is report', function ()
+
+                local addon = get_addon()
+                addon.farm_data = {
+                    MonsterA = {
+                        kills = 3,
+                        drops = {
+                            Crystal = 2
+                        }
+                    },
+                    MonsterB = {
+                        kills = 2,
+                        drops = {
+                            Crystal = 1
+                        }
+                    }
+                }
+                local windower_send_command_spy = spy.on(_G.windower, 'send_command')
+
+                addon.handle_addon_command(_, 'report')
+
+                assert.spy(windower_send_command_spy).was.called_with('Crystal: 2/3 (67%)')
+                assert.spy(windower_send_command_spy).was.called_with('Crystal: 1/2 (50%)')
+            end)
         end)
     end)
 end)
