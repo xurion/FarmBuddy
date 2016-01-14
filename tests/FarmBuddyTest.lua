@@ -72,12 +72,23 @@ expose('an exposed test', function()
             end)
         end)
 
-        it('should register the addon command event to windower', function ()
+        describe('addon command event', function ()
 
-            local register_event_listener_spy = spy.on(_G.windower, 'register_event')
-            get_addon()
+            it('should register the addon command event to windower', function ()
 
-            assert.spy(register_event_listener_spy).was.called_with('addon command', match._)
+                local register_event_listener_spy = spy.on(_G.windower, 'register_event')
+                get_addon()
+
+                assert.spy(register_event_listener_spy).was.called_with('addon command', match._)
+            end)
+
+            it('should register the handle_addon_command function as the callback', function()
+
+                local register_event_listener_spy = spy.on(_G.windower, 'register_event')
+                local addon = get_addon()
+
+                assert.spy(register_event_listener_spy).was.called_with(match._, addon.handle_addon_command)
+            end)
         end)
 
         describe('handle_incoming_text()', function()

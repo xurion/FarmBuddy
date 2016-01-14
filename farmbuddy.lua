@@ -47,7 +47,7 @@ FarmBuddy.handle_addon_command = function (command)
 end
 
 windower.register_event('incoming text', FarmBuddy.handle_incoming_message)
-windower.register_event('addon command', function() end)
+windower.register_event('addon command', FarmBuddy.handle_addon_command)
 
 return FarmBuddy
 
