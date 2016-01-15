@@ -45,7 +45,7 @@ end
 
 FarmBuddy.handle_addon_command = function (_, command)
 
-    local action, report, kill_plural
+    local action, kill_plural
 
     if command ~= nil then
         action = command:lower()
@@ -56,13 +56,13 @@ FarmBuddy.handle_addon_command = function (_, command)
     end
 
     if action == 'report' then
-        for monster_name, monster_data in pairs(FarmBuddy.farm_data) do
+        for _, monster_data in pairs(FarmBuddy.farm_data) do
             if monster_data.kills > 1 then
                 kill_plural = 's'
             else
                 kill_plural = ''
             end
-            windower.send_command(monster_name .. ': ' .. monster_data.kills .. ' kill' .. kill_plural)
+            windower.send_command(monster_data.name .. ': ' .. monster_data.kills .. ' kill' .. kill_plural)
             for drop_name, drop_amount in pairs(monster_data.drops) do
                 windower.send_command(drop_name .. ': ' .. drop_amount .. '/' .. monster_data.kills .. ' (' .. round(drop_amount / monster_data.kills * 100) .. '%)')
             end

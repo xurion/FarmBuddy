@@ -4,9 +4,9 @@ package.path = '../?.lua;./?.lua'
 
 local match = require("luassert.match")
 
-expose('an exposed test', function()
+expose('an exposed test', function ()
 
-    describe('FarmBuddy', function()
+    describe('FarmBuddy', function ()
 
         local get_addon = function ()
 
@@ -14,23 +14,29 @@ expose('an exposed test', function()
             return require('FarmBuddy')
         end
 
-        before_each(function()
+        local sent_commands
 
+        before_each(function ()
+
+            sent_commands = {}
             _G._addon = {}
             _G.windower = {
 
                 register_event = function () end,
-                send_command = function () end
+                send_command = function (command)
+
+                    table.insert(sent_commands, command)
+                end
             }
         end)
 
-        it('should set the available _addon commands to be farmbuddy and fb', function()
+        it('should set the available _addon commands to be farmbuddy and fb', function ()
 
             get_addon()
-            assert.are.same(_G._addon.commands, { 'farmbuddy', 'fb' })
+            assert.are.same(_G._addon.commands, {'farmbuddy', 'fb'})
         end)
 
-        it('should set the _addon name to FarmBuddy', function()
+        it('should set the _addon name to FarmBuddy', function ()
 
             get_addon()
             assert.is.equal(_G._addon.name, 'FarmBuddy')
@@ -64,7 +70,7 @@ expose('an exposed test', function()
                 assert.spy(register_event_listener_spy).was.called_with('incoming text', match._)
             end)
 
-            it('should register the handle_incoming_message function as the callback', function()
+            it('should register the handle_incoming_message function as the callback', function ()
 
                 local register_event_listener_spy = spy.on(_G.windower, 'register_event')
                 local addon = get_addon()
@@ -83,7 +89,7 @@ expose('an exposed test', function()
                 assert.spy(register_event_listener_spy).was.called_with('addon command', match._)
             end)
 
-            it('should register the handle_addon_command function as the callback', function()
+            it('should register the handle_addon_command function as the callback', function ()
 
                 local register_event_listener_spy = spy.on(_G.windower, 'register_event')
                 local addon = get_addon()
@@ -92,7 +98,7 @@ expose('an exposed test', function()
             end)
         end)
 
-        describe('handle_incoming_text()', function()
+        describe('handle_incoming_text()', function ()
 
             it('should return false if the text argument is an empty string', function ()
 
@@ -180,7 +186,8 @@ expose('an exposed test', function()
 
                 local addon = get_addon()
                 addon.farm_data = {
-                    Monster = {
+                    [0] = {
+                        name = 'Monster',
                         kills = 1,
                         drops = {}
                     }
@@ -196,7 +203,8 @@ expose('an exposed test', function()
 
                 local addon = get_addon()
                 addon.farm_data = {
-                    Monster = {
+                    [0] = {
+                        name = 'Monster',
                         kills = 2,
                         drops = {}
                     }
@@ -212,11 +220,13 @@ expose('an exposed test', function()
 
                 local addon = get_addon()
                 addon.farm_data = {
-                    MonsterA = {
+                    [0] = {
+                        name = 'MonsterA',
                         kills = 2,
                         drops = {}
                     },
-                    MonsterB = {
+                    [1] = {
+                        name = 'MonsterB',
                         kills = 1,
                         drops = {}
                     }
@@ -233,13 +243,15 @@ expose('an exposed test', function()
 
                 local addon = get_addon()
                 addon.farm_data = {
-                    MonsterA = {
+                    [0] = {
+                        name = 'MonsterA',
                         kills = 3,
                         drops = {
                             Crystal = 2
                         }
                     },
-                    MonsterB = {
+                    [1] = {
+                        name = 'MonsterB',
                         kills = 2,
                         drops = {
                             Crystal = 1
@@ -252,6 +264,34 @@ expose('an exposed test', function()
 
                 assert.spy(windower_send_command_spy).was.called_with('Crystal: 2/3 (67%)')
                 assert.spy(windower_send_command_spy).was.called_with('Crystal: 1/2 (50%)')
+            end)
+
+            it('should provide kill and drop data in a readable order when the command argument is report', function ()
+
+                local addon = get_addon()
+                addon.farm_data = {
+                    [0] = {
+                        name = 'MonsterA',
+                        kills = 3,
+                        drops = {
+                            Crystal = 2
+                        }
+                    },
+                    [1] = {
+                        name = 'MonsterB',
+                        kills = 2,
+                        drops = {
+                            Crystal = 1
+                        }
+                    }
+                }
+
+                addon.handle_addon_command(_, 'report')
+
+                assert.is.equal(sent_commands[1], 'MonsterA: 3 kills')
+                assert.is.equal(sent_commands[2], 'Crystal: 2/3 (67%)')
+                assert.is.equal(sent_commands[3], 'MonsterB: 2 kills')
+                assert.is.equal(sent_commands[4], 'Crystal: 1/2 (50%)')
             end)
         end)
     end)
