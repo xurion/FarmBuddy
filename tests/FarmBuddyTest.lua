@@ -60,6 +60,12 @@ expose('an exposed test', function ()
             assert.is.same(addon.farm_data, {})
         end)
 
+        it('should set the status to running', function ()
+
+            local addon = get_addon()
+            assert.is.equal(addon.status, 'running')
+        end)
+
         describe('incoming text event', function ()
 
             it('should register the incoming text event to windower', function ()
@@ -297,6 +303,17 @@ expose('an exposed test', function ()
                 assert.is.equal(sent_commands[2], 'Crystal: 2/3 (67%)')
                 assert.is.equal(sent_commands[3], 'MonsterB: 2 kills')
                 assert.is.equal(sent_commands[4], 'Crystal: 1/2 (50%)')
+            end)
+        end)
+
+        describe('pause()', function ()
+
+            it('should set the status to paused', function ()
+
+                local addon = get_addon()
+                addon.pause()
+
+                assert.is.equal(addon.status, 'paused')
             end)
         end)
     end)
