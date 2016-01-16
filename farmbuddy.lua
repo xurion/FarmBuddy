@@ -87,6 +87,18 @@ FarmBuddy.handle_addon_command = function (_, command)
             end
         end
     end
+
+    if action == 'pause' then
+        FarmBuddy.pause()
+    end
+
+    if action == 'resume' then
+        FarmBuddy.resume()
+    end
+
+    if action == 'status' then
+        windower.send_command(FarmBuddy.status)
+    end
 end
 
 FarmBuddy.pause = function ()

@@ -298,6 +298,36 @@ expose('an exposed test', function ()
                 assert.is.equal(sent_commands[3], 'MonsterB: 2 kills')
                 assert.is.equal(sent_commands[4], 'Crystal: 1/2 (50%)')
             end)
+
+            it('should execute the pause function if the command argument is pause', function ()
+
+                local addon = get_addon()
+                local pause_spy = spy.on(addon, 'pause')
+
+                addon.handle_addon_command(_, 'pause')
+
+                assert.spy(pause_spy).was.called(1)
+            end)
+
+            it('should execute the resume function if the command argument is resume', function ()
+
+                local addon = get_addon()
+                local resume_spy = spy.on(addon, 'resume')
+
+                addon.handle_addon_command(_, 'resume')
+
+                assert.spy(resume_spy).was.called(1)
+            end)
+
+            it('should provide the status if the command argument is status', function ()
+
+                local windower_send_command_spy = spy.on(_G.windower, 'send_command')
+                local addon = get_addon()
+
+                addon.handle_addon_command(_, 'status')
+
+                assert.spy(windower_send_command_spy).was.called_with('running')
+            end)
         end)
 
         describe('pause()', function ()
