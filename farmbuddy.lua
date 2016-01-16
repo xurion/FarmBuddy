@@ -31,23 +31,15 @@ FarmBuddy.handle_incoming_message = function (_, text)
     local key
 
     if killed_mob_name then
-        if FarmBuddy.farm_data[0] == nil then
-            FarmBuddy.farm_data[0] = {
+        key = getExistingDataKey(killed_mob_name)
+        if key == false then
+            table.insert(FarmBuddy.farm_data, {
                 name = killed_mob_name,
                 kills = 1,
                 drops = {}
-            }
+            })
         else
-            key = getExistingDataKey(killed_mob_name)
-            if key == false then
-                table.insert(FarmBuddy.farm_data, {
-                    name = killed_mob_name,
-                    kills = 1,
-                    drops = {}
-                })
-            else
-                FarmBuddy.farm_data[key].kills = FarmBuddy.farm_data[key].kills + 1
-            end
+            FarmBuddy.farm_data[key].kills = FarmBuddy.farm_data[key].kills + 1
         end
     end
 

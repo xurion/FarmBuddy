@@ -117,7 +117,7 @@ expose('an exposed test', function ()
                 local addon = get_addon()
                 addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
                 assert.is.same(addon.farm_data, {
-                    [0] = {
+                    [1] = {
                         name = 'Monster',
                         kills = 1,
                         drops = {}
@@ -131,7 +131,7 @@ expose('an exposed test', function ()
                 addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
                 addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
                 assert.is.same(addon.farm_data, {
-                    [0] = {
+                    [1] = {
                         name = 'Monster',
                         kills = 2,
                         drops = {}
@@ -145,12 +145,12 @@ expose('an exposed test', function ()
                 addon.handle_incoming_message(_, 'Xurion defeats the MonsterA.')
                 addon.handle_incoming_message(_, 'Xurion defeats the MonsterB.')
                 assert.is.same(addon.farm_data, {
-                    [0] = {
+                    [1] = {
                         name = 'MonsterA',
                         kills = 1,
                         drops = {}
                     },
-                    [1] = {
+                    [2] = {
                         name = 'MonsterB',
                         kills = 1,
                         drops = {}
@@ -158,13 +158,13 @@ expose('an exposed test', function ()
                 })
             end)
 
-            it('should store drop information when a drop message is handled #ll', function ()
+            it('should store drop information when a drop message is handled', function ()
 
                 local addon = get_addon()
                 addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
                 addon.handle_incoming_message(_, 'You find a Crystal on the Monster.')
                 assert.is.same(addon.farm_data, {
-                    [0] = {
+                    [1] = {
                         name = 'Monster',
                         kills = 1,
                         drops = {
@@ -191,7 +191,7 @@ expose('an exposed test', function ()
 
                 local addon = get_addon()
                 addon.farm_data = {
-                    [0] = {
+                    [1] = {
                         name = 'Monster',
                         kills = 1,
                         drops = {}
@@ -208,7 +208,7 @@ expose('an exposed test', function ()
 
                 local addon = get_addon()
                 addon.farm_data = {
-                    [0] = {
+                    [1] = {
                         name = 'Monster',
                         kills = 2,
                         drops = {}
@@ -225,12 +225,12 @@ expose('an exposed test', function ()
 
                 local addon = get_addon()
                 addon.farm_data = {
-                    [0] = {
+                    [1] = {
                         name = 'MonsterA',
                         kills = 2,
                         drops = {}
                     },
-                    [1] = {
+                    [2] = {
                         name = 'MonsterB',
                         kills = 1,
                         drops = {}
@@ -248,14 +248,14 @@ expose('an exposed test', function ()
 
                 local addon = get_addon()
                 addon.farm_data = {
-                    [0] = {
+                    [1] = {
                         name = 'MonsterA',
                         kills = 3,
                         drops = {
                             Crystal = 2
                         }
                     },
-                    [1] = {
+                    [2] = {
                         name = 'MonsterB',
                         kills = 2,
                         drops = {
@@ -275,14 +275,14 @@ expose('an exposed test', function ()
 
                 local addon = get_addon()
                 addon.farm_data = {
-                    [0] = {
+                    [1] = {
                         name = 'MonsterA',
                         kills = 3,
                         drops = {
                             Crystal = 2
                         }
                     },
-                    [1] = {
+                    [2] = {
                         name = 'MonsterB',
                         kills = 2,
                         drops = {
