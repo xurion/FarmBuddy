@@ -1,5 +1,5 @@
 Author: Xurion of Bismarck
-Version: 0.0.1
+Version: 1.0.0
 FarmBuddy - the farm tracking tool
 
 Abbreviation: //fb, //farmbuddy

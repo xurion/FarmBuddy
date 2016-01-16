@@ -93,6 +93,10 @@ FarmBuddy.pause = function ()
     FarmBuddy.status = 'paused'
 end
 
+FarmBuddy.resume = function ()
+    FarmBuddy.status = 'running'
+end
+
 function print_r(t)
     local print_r_cache = {}
     local function sub_print_r(t, indent)

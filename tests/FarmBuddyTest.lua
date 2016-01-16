@@ -320,6 +320,34 @@ expose('an exposed test', function ()
                 assert.is.same(addon.farm_data, {})
             end)
         end)
+
+        describe('resume()', function ()
+
+            it('should set the status to running', function ()
+
+                local addon = get_addon()
+                addon.status = 'mock'
+                addon.resume()
+
+                assert.is.equal(addon.status, 'running')
+            end)
+
+            it('should continue to track kills after resuming', function ()
+
+                local addon = get_addon()
+                addon.status = 'paused'
+                addon.resume()
+                addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
+
+                assert.is.same(addon.farm_data, {
+                    [1] = {
+                        name = 'Monster',
+                        kills = 1,
+                        drops = {}
+                    }
+                })
+            end)
+        end)
     end)
 end)
 
