@@ -117,7 +117,8 @@ expose('an exposed test', function ()
                 local addon = get_addon()
                 addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
                 assert.is.same(addon.farm_data, {
-                    Monster = {
+                    [0] = {
+                        name = 'Monster',
                         kills = 1,
                         drops = {}
                     }
@@ -130,7 +131,8 @@ expose('an exposed test', function ()
                 addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
                 addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
                 assert.is.same(addon.farm_data, {
-                    Monster = {
+                    [0] = {
+                        name = 'Monster',
                         kills = 2,
                         drops = {}
                     }
@@ -143,24 +145,27 @@ expose('an exposed test', function ()
                 addon.handle_incoming_message(_, 'Xurion defeats the MonsterA.')
                 addon.handle_incoming_message(_, 'Xurion defeats the MonsterB.')
                 assert.is.same(addon.farm_data, {
-                    MonsterA = {
+                    [0] = {
+                        name = 'MonsterA',
                         kills = 1,
                         drops = {}
                     },
-                    MonsterB = {
+                    [1] = {
+                        name = 'MonsterB',
                         kills = 1,
                         drops = {}
                     }
                 })
             end)
 
-            it('should store drop information when a drop message is handled', function ()
+            it('should store drop information when a drop message is handled #ll', function ()
 
                 local addon = get_addon()
                 addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
                 addon.handle_incoming_message(_, 'You find a Crystal on the Monster.')
                 assert.is.same(addon.farm_data, {
-                    Monster = {
+                    [0] = {
+                        name = 'Monster',
                         kills = 1,
                         drops = {
                             Crystal = 1
