@@ -109,13 +109,7 @@ expose('an exposed test', function ()
             it('should return false if the text argument is an empty string', function ()
 
                 local addon = get_addon()
-                assert.is.equal(addon.handle_incoming_message(''), false)
-            end)
-
-            it('should return false if the text argument is nil', function ()
-
-                local addon = get_addon()
-                assert.is.equal(addon.handle_incoming_message(), false)
+                assert.is.equal(addon.handle_incoming_message(_, ''), false)
             end)
 
             it('should store kill information when a kill confirmtion message is handled', function ()
@@ -314,6 +308,16 @@ expose('an exposed test', function ()
                 addon.pause()
 
                 assert.is.equal(addon.status, 'paused')
+            end)
+
+            it('should not track kills after paused', function ()
+
+                local addon = get_addon()
+                addon.pause()
+                addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
+                addon.handle_incoming_message(_, 'You find a Crystal on the Monster.')
+
+                assert.is.same(addon.farm_data, {})
             end)
         end)
     end)

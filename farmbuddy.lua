@@ -25,7 +25,9 @@ end
 
 FarmBuddy.handle_incoming_message = function (_, text)
 
-    if text == '' or text == nil then return false end
+    if text == '' or FarmBuddy.status == 'paused' then
+        return false
+    end
 
     local kill_confirmation_regex = 'Xurion defeats the (.*)%.'
     local killed_mob_name = string.match(text, kill_confirmation_regex)
