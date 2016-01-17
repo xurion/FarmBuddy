@@ -194,7 +194,7 @@ expose('an exposed test', function ()
                 local addon = get_addon()
                 addon.farm_data = {'mock data'}
 
-                addon.handle_addon_command(_, 'reset')
+                addon.handle_addon_command('reset')
 
                 assert.is.same(addon.farm_data, {})
             end)
@@ -211,7 +211,7 @@ expose('an exposed test', function ()
                 }
                 local send_text_to_game_spy = spy.on(addon, 'send_text_to_game')
 
-                addon.handle_addon_command(_, 'report')
+                addon.handle_addon_command('report')
 
                 assert.spy(send_text_to_game_spy).was.called_with('Monster: 1 kill')
             end)
@@ -228,7 +228,7 @@ expose('an exposed test', function ()
                 }
                 local send_text_to_game_spy = spy.on(addon, 'send_text_to_game')
 
-                addon.handle_addon_command(_, 'report')
+                addon.handle_addon_command('report')
 
                 assert.spy(send_text_to_game_spy).was.called_with('Monster: 2 kills')
             end)
@@ -250,7 +250,7 @@ expose('an exposed test', function ()
                 }
                 local send_text_to_game_spy = spy.on(addon, 'send_text_to_game')
 
-                addon.handle_addon_command(_, 'report')
+                addon.handle_addon_command('report')
 
                 assert.spy(send_text_to_game_spy).was.called_with('MonsterA: 2 kills')
                 assert.spy(send_text_to_game_spy).was.called_with('MonsterB: 1 kill')
@@ -277,7 +277,7 @@ expose('an exposed test', function ()
                 }
                 local send_text_to_game_spy = spy.on(addon, 'send_text_to_game')
 
-                addon.handle_addon_command(_, 'report')
+                addon.handle_addon_command('report')
 
                 assert.spy(send_text_to_game_spy).was.called_with('Crystal: 2/3 (67%)')
                 assert.spy(send_text_to_game_spy).was.called_with('Crystal: 1/2 (50%)')
@@ -303,7 +303,7 @@ expose('an exposed test', function ()
                     }
                 }
 
-                addon.handle_addon_command(_, 'report')
+                addon.handle_addon_command('report')
 
                 assert.is.equal(sent_chats[1], 'MonsterA: 3 kills')
                 assert.is.equal(sent_chats[2], 'Crystal: 2/3 (67%)')
@@ -316,7 +316,7 @@ expose('an exposed test', function ()
                 local addon = get_addon()
                 local pause_spy = spy.on(addon, 'pause')
 
-                addon.handle_addon_command(_, 'pause')
+                addon.handle_addon_command('pause')
 
                 assert.spy(pause_spy).was.called(1)
             end)
@@ -326,7 +326,7 @@ expose('an exposed test', function ()
                 local addon = get_addon()
                 local resume_spy = spy.on(addon, 'resume')
 
-                addon.handle_addon_command(_, 'resume')
+                addon.handle_addon_command('resume')
 
                 assert.spy(resume_spy).was.called(1)
             end)
@@ -336,7 +336,7 @@ expose('an exposed test', function ()
                 local addon = get_addon()
                 local send_text_to_game_spy = spy.on(addon, 'send_text_to_game')
 
-                addon.handle_addon_command(_, 'status')
+                addon.handle_addon_command('status')
 
                 assert.spy(send_text_to_game_spy).was.called_with('running')
             end)

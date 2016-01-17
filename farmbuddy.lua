@@ -62,16 +62,12 @@ FarmBuddy.handle_incoming_message = function (_, text)
     end
 end
 
-FarmBuddy.handle_addon_command = function (_, command)
+FarmBuddy.handle_addon_command = function (command)
 
     local action, kill_plural
 
     if command ~= nil then
         action = command:lower()
-    end
-
-    if action == 'reset' then
-        FarmBuddy.farm_data = {}
     end
 
     if action == 'report' then
@@ -86,6 +82,10 @@ FarmBuddy.handle_addon_command = function (_, command)
                 FarmBuddy.send_text_to_game(drop_name .. ': ' .. drop_amount .. '/' .. monster_data.kills .. ' (' .. round(drop_amount / monster_data.kills * 100) .. '%)')
             end
         end
+    end
+
+    if action == 'reset' then
+        FarmBuddy.farm_data = {}
     end
 
     if action == 'pause' then
