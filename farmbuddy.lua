@@ -79,7 +79,7 @@ FarmBuddy.handle_addon_command = function (command)
             end
             FarmBuddy.send_text_to_game(monster_data.name .. ': ' .. monster_data.kills .. ' kill' .. kill_plural)
             for drop_name, drop_amount in pairs(monster_data.drops) do
-                FarmBuddy.send_text_to_game(drop_name .. ': ' .. drop_amount .. '/' .. monster_data.kills .. ' (' .. round(drop_amount / monster_data.kills * 100) .. '%)')
+                FarmBuddy.send_text_to_game(' > ' .. drop_name .. ': ' .. drop_amount .. '/' .. monster_data.kills .. ' (' .. round(drop_amount / monster_data.kills * 100) .. '%)')
             end
         end
     end

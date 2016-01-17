@@ -216,7 +216,7 @@ expose('an exposed test', function ()
                 assert.spy(send_text_to_game_spy).was.called_with('Monster: 1 kill')
             end)
 
-            it('should report the number of kills when the command argument is report', function ()
+            it('should report multiple kills when the command argument is report', function ()
 
                 local addon = get_addon()
                 addon.farm_data = {
@@ -279,8 +279,8 @@ expose('an exposed test', function ()
 
                 addon.handle_addon_command('report')
 
-                assert.spy(send_text_to_game_spy).was.called_with('Crystal: 2/3 (67%)')
-                assert.spy(send_text_to_game_spy).was.called_with('Crystal: 1/2 (50%)')
+                assert.spy(send_text_to_game_spy).was.called_with(' > Crystal: 2/3 (67%)')
+                assert.spy(send_text_to_game_spy).was.called_with(' > Crystal: 1/2 (50%)')
             end)
 
             it('should provide kill and drop data in a readable order when the command argument is report', function ()
@@ -306,9 +306,9 @@ expose('an exposed test', function ()
                 addon.handle_addon_command('report')
 
                 assert.is.equal(sent_chats[1], 'MonsterA: 3 kills')
-                assert.is.equal(sent_chats[2], 'Crystal: 2/3 (67%)')
+                assert.is.equal(sent_chats[2], ' > Crystal: 2/3 (67%)')
                 assert.is.equal(sent_chats[3], 'MonsterB: 2 kills')
-                assert.is.equal(sent_chats[4], 'Crystal: 1/2 (50%)')
+                assert.is.equal(sent_chats[4], ' > Crystal: 1/2 (50%)')
             end)
 
             it('should execute the pause function if the command argument is pause', function ()
