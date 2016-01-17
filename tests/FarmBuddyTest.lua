@@ -14,18 +14,18 @@ expose('an exposed test', function ()
             return require('FarmBuddy')
         end
 
-        local sent_commands
+        local sent_chats
 
         before_each(function ()
 
-            sent_commands = {}
+            sent_chats = {}
             _G._addon = {}
             _G.windower = {
 
                 register_event = function () end,
-                send_command = function (command)
+                add_to_chat = function (_, message)
 
-                    table.insert(sent_commands, command)
+                    table.insert(sent_chats, message)
                 end
             }
         end)
@@ -64,6 +64,18 @@ expose('an exposed test', function ()
 
             local addon = get_addon()
             assert.is.equal(addon.status, 'running')
+        end)
+
+        describe('send_text_to_game()', function ()
+
+            it('should execute the windower add_to_chat function with mode 7 and the message argument', function ()
+
+                local add_to_chat_spy = spy.on(_G.windower, 'add_to_chat')
+                local addon = get_addon()
+                addon.send_text_to_game('text for game')
+
+                assert.spy(add_to_chat_spy).was.called_with(7, 'text for game')
+            end)
         end)
 
         describe('incoming text event', function ()
@@ -197,11 +209,11 @@ expose('an exposed test', function ()
                         drops = {}
                     }
                 }
-                local windower_send_command_spy = spy.on(_G.windower, 'send_command')
+                local send_text_to_game_spy = spy.on(addon, 'send_text_to_game')
 
                 addon.handle_addon_command(_, 'report')
 
-                assert.spy(windower_send_command_spy).was.called_with('Monster: 1 kill')
+                assert.spy(send_text_to_game_spy).was.called_with('Monster: 1 kill')
             end)
 
             it('should report the number of kills when the command argument is report', function ()
@@ -214,11 +226,11 @@ expose('an exposed test', function ()
                         drops = {}
                     }
                 }
-                local windower_send_command_spy = spy.on(_G.windower, 'send_command')
+                local send_text_to_game_spy = spy.on(addon, 'send_text_to_game')
 
                 addon.handle_addon_command(_, 'report')
 
-                assert.spy(windower_send_command_spy).was.called_with('Monster: 2 kills')
+                assert.spy(send_text_to_game_spy).was.called_with('Monster: 2 kills')
             end)
 
             it('should report multiple numbers of kills when the command argument is report', function ()
@@ -236,12 +248,12 @@ expose('an exposed test', function ()
                         drops = {}
                     }
                 }
-                local windower_send_command_spy = spy.on(_G.windower, 'send_command')
+                local send_text_to_game_spy = spy.on(addon, 'send_text_to_game')
 
                 addon.handle_addon_command(_, 'report')
 
-                assert.spy(windower_send_command_spy).was.called_with('MonsterA: 2 kills')
-                assert.spy(windower_send_command_spy).was.called_with('MonsterB: 1 kill')
+                assert.spy(send_text_to_game_spy).was.called_with('MonsterA: 2 kills')
+                assert.spy(send_text_to_game_spy).was.called_with('MonsterB: 1 kill')
             end)
 
             it('should report numbers of drops and drop rate percentage when the command argument is report', function ()
@@ -263,12 +275,12 @@ expose('an exposed test', function ()
                         }
                     }
                 }
-                local windower_send_command_spy = spy.on(_G.windower, 'send_command')
+                local send_text_to_game_spy = spy.on(addon, 'send_text_to_game')
 
                 addon.handle_addon_command(_, 'report')
 
-                assert.spy(windower_send_command_spy).was.called_with('Crystal: 2/3 (67%)')
-                assert.spy(windower_send_command_spy).was.called_with('Crystal: 1/2 (50%)')
+                assert.spy(send_text_to_game_spy).was.called_with('Crystal: 2/3 (67%)')
+                assert.spy(send_text_to_game_spy).was.called_with('Crystal: 1/2 (50%)')
             end)
 
             it('should provide kill and drop data in a readable order when the command argument is report', function ()
@@ -293,10 +305,10 @@ expose('an exposed test', function ()
 
                 addon.handle_addon_command(_, 'report')
 
-                assert.is.equal(sent_commands[1], 'MonsterA: 3 kills')
-                assert.is.equal(sent_commands[2], 'Crystal: 2/3 (67%)')
-                assert.is.equal(sent_commands[3], 'MonsterB: 2 kills')
-                assert.is.equal(sent_commands[4], 'Crystal: 1/2 (50%)')
+                assert.is.equal(sent_chats[1], 'MonsterA: 3 kills')
+                assert.is.equal(sent_chats[2], 'Crystal: 2/3 (67%)')
+                assert.is.equal(sent_chats[3], 'MonsterB: 2 kills')
+                assert.is.equal(sent_chats[4], 'Crystal: 1/2 (50%)')
             end)
 
             it('should execute the pause function if the command argument is pause', function ()
@@ -321,12 +333,12 @@ expose('an exposed test', function ()
 
             it('should provide the status if the command argument is status', function ()
 
-                local windower_send_command_spy = spy.on(_G.windower, 'send_command')
                 local addon = get_addon()
+                local send_text_to_game_spy = spy.on(addon, 'send_text_to_game')
 
                 addon.handle_addon_command(_, 'status')
 
-                assert.spy(windower_send_command_spy).was.called_with('running')
+                assert.spy(send_text_to_game_spy).was.called_with('running')
             end)
         end)
 

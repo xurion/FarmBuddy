@@ -81,9 +81,9 @@ FarmBuddy.handle_addon_command = function (_, command)
             else
                 kill_plural = ''
             end
-            windower.send_command(monster_data.name .. ': ' .. monster_data.kills .. ' kill' .. kill_plural)
+            FarmBuddy.send_text_to_game(monster_data.name .. ': ' .. monster_data.kills .. ' kill' .. kill_plural)
             for drop_name, drop_amount in pairs(monster_data.drops) do
-                windower.send_command(drop_name .. ': ' .. drop_amount .. '/' .. monster_data.kills .. ' (' .. round(drop_amount / monster_data.kills * 100) .. '%)')
+                FarmBuddy.send_text_to_game(drop_name .. ': ' .. drop_amount .. '/' .. monster_data.kills .. ' (' .. round(drop_amount / monster_data.kills * 100) .. '%)')
             end
         end
     end
@@ -97,7 +97,7 @@ FarmBuddy.handle_addon_command = function (_, command)
     end
 
     if action == 'status' then
-        windower.send_command(FarmBuddy.status)
+        FarmBuddy.send_text_to_game(FarmBuddy.status)
     end
 end
 
@@ -107,6 +107,10 @@ end
 
 FarmBuddy.resume = function ()
     FarmBuddy.status = 'running'
+end
+
+FarmBuddy.send_text_to_game = function (text)
+    windower.add_to_chat(7, text)
 end
 
 function print_r(t)
