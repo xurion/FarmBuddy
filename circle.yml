@@ -1,0 +1,7 @@
+dependencies:
+  pre:
+    - sudo apt-get install luarocks
+    - sudo luarocks install busted
+test:
+  override:
+    - busted
