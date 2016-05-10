@@ -2,7 +2,7 @@ dependencies:
   pre:
     - sudo apt-get install lua5.2
     - wget -O luarocks.tar.gz https://github.com/keplerproject/luarocks/tarball/master
-    - tar -zxvf luarocks.tar.gz luarocks
+    - tar -zxvf luarocks.tar.gz -C luarocks
     - ./luarocks/configure
 test:
   override:
