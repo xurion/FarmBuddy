@@ -1,6 +1,6 @@
 dependencies:
   pre:
-    - sudo apt-get install luarocks
+    - sudo apt-get install lua5.2
     - sudo luarocks install busted
 test:
   override:
