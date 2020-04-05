@@ -1,6 +1,8 @@
-Author: Xurion of Bismarck
-Version: 1.0.0
-FarmBuddy - the farm tracking tool
+# FFXI FarmBuddy
+
+A farm tracking addon for Final Fantasy XI.
+
+*Note: This was one of my first addons and was used as a learning experience. Therefore this is not built in the best way, albeit it does do the job.*
 
 Abbreviation: //fb, //farmbuddy
 
