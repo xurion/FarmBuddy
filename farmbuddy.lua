@@ -75,7 +75,7 @@ FarmBuddy.handle_addon_command = function(command)
         --     return
         -- end
 
-        for _, monster_data in pairs(FarmBuddy.farm_data) do
+        for _, monster_data in ipairs(FarmBuddy.farm_data) do
             if monster_data.kills > 1 then
                 kill_plural = 's'
             else
@@ -83,7 +83,7 @@ FarmBuddy.handle_addon_command = function(command)
             end
             FarmBuddy.send_text_to_game(monster_data.name .. ': ' .. monster_data.kills .. ' kill' .. kill_plural)
             for drop_name, drop_amount in pairs(monster_data.drops) do
-                FarmBuddy.send_text_to_game(' > ' .. drop_name .. ': ' .. drop_amount .. '/' .. monster_data.kills .. ' (' .. round(drop_amount / monster_data.kills * 100) .. '%)')
+                FarmBuddy.send_text_to_game(' > ' .. drop_name .. ': ' .. drop_amount .. '/' .. monster_data.kills .. ' (' .. round(drop_amount / monster_data.kills * 100, 1) .. '%)')
             end
         end
     end
@@ -115,41 +115,6 @@ end
 
 FarmBuddy.send_text_to_game = function (text)
     windower.add_to_chat(7, text)
-end
-
-function print_r(t)
-    local print_r_cache = {}
-    local function sub_print_r(t, indent)
-        if (print_r_cache[tostring(t)]) then
-            print(indent .. "*" .. tostring(t))
-        else
-            print_r_cache[tostring(t)] = true
-            if (type(t) == "table") then
-                for pos, val in pairs(t) do
-                    if (type(val) == "table") then
-                        print(indent .. "[" .. pos .. "] => " .. tostring(t) .. " {")
-                        sub_print_r(val, indent .. string.rep(" ", string.len(pos) + 8))
-                        print(indent .. string.rep(" ", string.len(pos) + 6) .. "}")
-                    elseif (type(val) == "string") then
-                        print(indent .. "[" .. pos .. '] => "' .. val .. '"')
-                    else
-                        print(indent .. "[" .. pos .. "] => " .. tostring(val))
-                    end
-                end
-            else
-                print(indent .. tostring(t))
-            end
-        end
-    end
-
-    if (type(t) == "table") then
-        print(tostring(t) .. " {")
-        sub_print_r(t, "  ")
-        print("}")
-    else
-        sub_print_r(t, "  ")
-    end
-    print()
 end
 
 windower.register_event('incoming text', FarmBuddy.handle_incoming_message)
