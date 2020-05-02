@@ -25,10 +25,10 @@ jobs:
     # cli command: docker run -ti -v `$GITHUB_WORKSPACE`:/app xurion/busted-runner
     - name: Run tests in Docker
       run: |
-        - apt-get install lua5.2
-        - wget -O luarocks.tar.gz https://github.com/keplerproject/luarocks/tarball/master
-        - mkdir luarocks
-        - tar -zxvf luarocks.tar.gz -C luarocks
-        - ./luarocks/keplerproject-luarocks-*/configure
-        - cd $GITHUB_WORKSPACE
-        - busted
+        apt-get install lua5.2
+        wget -O luarocks.tar.gz https://github.com/keplerproject/luarocks/tarball/master
+        mkdir luarocks
+        tar -zxvf luarocks.tar.gz -C luarocks
+        ./luarocks/keplerproject-luarocks-*/configure
+        cd $GITHUB_WORKSPACE
+        busted
