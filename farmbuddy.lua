@@ -62,8 +62,7 @@ FarmBuddy.handle_incoming_message = function (_, text)
     end
 end
 
-FarmBuddy.handle_addon_command = function (command)
-
+FarmBuddy.handle_addon_command = function(command)
     local action, kill_plural
 
     if command ~= nil then
@@ -71,6 +70,11 @@ FarmBuddy.handle_addon_command = function (command)
     end
 
     if action == 'report' then
+        -- if #FarmBuddy.farm_data == 0 then
+        --     FarmBuddy.send_text_to_game('No data to report')
+        --     return
+        -- end
+
         for _, monster_data in pairs(FarmBuddy.farm_data) do
             if monster_data.kills > 1 then
                 kill_plural = 's'
