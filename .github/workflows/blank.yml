@@ -22,6 +22,13 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
+    # cli command: docker run -ti -v `$GITHUB_WORKSPACE`:/app xurion/busted-runner
     - name: Run tests in Docker
-      run: docker run -ti -v `$GITHUB_WORKSPACE`:/app xurion/busted-runner
+      run: |
+        - sudo apt-get install lua5.2
+        - wget -O luarocks.tar.gz https://github.com/keplerproject/luarocks/tarball/master
+        - mkdir luarocks
+        - tar -zxvf luarocks.tar.gz -C luarocks
+        - ./luarocks/keplerproject-luarocks-*/configure
+        - cd $GITHUB_WORKSPACE
+        - busted
