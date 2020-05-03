@@ -22,14 +22,13 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # cli command: docker run -ti -v `$GITHUB_WORKSPACE`:/app xurion/busted-runner
-    - name: Run tests in Docker
+    - name: Run Busted tests
       run: |
         sudo apt update
         sudo apt install -y build-essential libreadline-dev curl wget unzip
 
-        mkdir /home/runner/lua-deps
-        cd /home/runner/lua-deps
+        mkdir $GITHUB_WORKSPACE/../deps
+        cd $GITHUB_WORKSPACE/../deps
         curl -R -O http://www.lua.org/ftp/lua-5.3.5.tar.gz
         tar -zxf lua-5.3.5.tar.gz
         cd lua-5.3.5
@@ -46,4 +45,4 @@ jobs:
         luarocks install busted
 
         cd $GITHUB_WORKSPACE
-        /home/runner/lua-deps/lua-5.3.5/luarocks-3.3.1/./lua_modules/bin/busted
+        ../deps/lua-5.3.5/luarocks-3.3.1/lua_modules/bin/busted
