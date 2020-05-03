@@ -28,6 +28,8 @@ jobs:
         sudo apt update
         sudo apt install -y build-essential libreadline-dev curl wget unzip
 
+        mkdir /lua
+        cd /lua
         curl -R -O http://www.lua.org/ftp/lua-5.3.5.tar.gz
         tar -zxf lua-5.3.5.tar.gz
         cd lua-5.3.5
@@ -43,4 +45,5 @@ jobs:
 
         luarocks install busted
 
-        busted
+        cd $GITHUB_WORKSPACE
+        /lua-5.3.5/luarocks-3.3.1/./lua_modules/bin/busted
