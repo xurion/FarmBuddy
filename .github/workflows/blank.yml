@@ -25,4 +25,6 @@ jobs:
           pwd
           ls
           docker-compose -v
+          docker-compose run --entrypoint ls tests
+          docker-compose run --entrypoint ls tests tests
           docker-compose run tests
