@@ -1,14 +1,12 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
+name: Tests
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -19,30 +17,8 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-    - name: Run Busted tests
-      run: |
-        sudo apt update
-        sudo apt install -y build-essential libreadline-dev curl wget unzip
-
-        mkdir $GITHUB_WORKSPACE/../deps
-        cd $GITHUB_WORKSPACE/../deps
-        curl -R -O http://www.lua.org/ftp/lua-5.3.5.tar.gz
-        tar -zxf lua-5.3.5.tar.gz
-        cd lua-5.3.5
-        make linux test
-        sudo make install
-
-        wget https://luarocks.org/releases/luarocks-3.3.1.tar.gz
-        tar zxpf luarocks-3.3.1.tar.gz
-        cd luarocks-3.3.1
-        ./configure
-        make
-        sudo make install
-
-        luarocks install busted
-
-        cd $GITHUB_WORKSPACE
-        ../deps/lua-5.3.5/luarocks-3.3.1/lua_modules/bin/busted
+      - name: Run tests
+        run: docker-compose run tests
