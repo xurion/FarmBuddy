@@ -4,7 +4,7 @@ name: Tests
 # events but only for the master branch
 on:
   push:
-    branches: [master]
+    branches: [master, actions]
   pull_request:
     branches: [master]
 
@@ -24,4 +24,5 @@ jobs:
         run: |
           pwd
           ls
+          docker-compise
           docker-compose run tests
