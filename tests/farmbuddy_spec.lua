@@ -26,37 +26,37 @@ describe('FarmBuddy', function ()
         }
     end)
 
-    it('should set the available _addon commands to be farmbuddy and fb', function ()
+    it('sets the available _addon commands to be farmbuddy and fb', function ()
 
         get_addon()
         assert.are.same(_G._addon.commands, {'farmbuddy', 'fb'})
     end)
 
-    it('should set the _addon name to FarmBuddy', function ()
+    it('sets the _addon name to FarmBuddy', function ()
 
         get_addon()
         assert.is.equal(_G._addon.name, 'FarmBuddy')
     end)
 
-    it('should set the _addon author as Xurion of Bismarck', function ()
+    it('sets the _addon author as Dean James (Xurion of Bismarck)', function ()
 
         get_addon()
-        assert.is.equal(_G._addon.author, 'Xurion of Bismarck')
+        assert.is.equal(_G._addon.author, 'Dean James (Xurion of Bismarck)')
     end)
 
-    it('should set the _addon version', function ()
+    it('sets the _addon version', function ()
 
         get_addon()
         assert.is.truthy(_G._addon.version)
     end)
 
-    it('should set the farm_data to an empty table', function ()
+    it('sets the farm_data to an empty table', function ()
 
         local addon = get_addon()
         assert.is.same(addon.farm_data, {})
     end)
 
-    it('should set the status to running', function ()
+    it('sets the status to running', function ()
 
         local addon = get_addon()
         assert.is.equal(addon.status, 'running')
@@ -64,7 +64,7 @@ describe('FarmBuddy', function ()
 
     describe('send_text_to_game()', function ()
 
-        it('should execute the windower add_to_chat function with mode 7 and the message argument', function ()
+        it('executes the windower add_to_chat function with mode 7 and the message argument', function ()
 
             local add_to_chat_spy = spy.on(_G.windower, 'add_to_chat')
             local addon = get_addon()
@@ -76,7 +76,7 @@ describe('FarmBuddy', function ()
 
     describe('incoming text event', function ()
 
-        it('should register the incoming text event to windower', function ()
+        it('registers the incoming text event to windower', function ()
 
             local register_event_listener_spy = spy.on(_G.windower, 'register_event')
             get_addon()
@@ -84,7 +84,7 @@ describe('FarmBuddy', function ()
             assert.spy(register_event_listener_spy).was.called_with('incoming text', match._)
         end)
 
-        it('should register the handle_incoming_message function as the callback', function ()
+        it('registers the handle_incoming_message function as the callback', function ()
 
             local register_event_listener_spy = spy.on(_G.windower, 'register_event')
             local addon = get_addon()
@@ -95,7 +95,7 @@ describe('FarmBuddy', function ()
 
     describe('addon command event', function ()
 
-        it('should register the addon command event to windower', function ()
+        it('registers the addon command event to windower', function ()
 
             local register_event_listener_spy = spy.on(_G.windower, 'register_event')
             get_addon()
@@ -103,7 +103,7 @@ describe('FarmBuddy', function ()
             assert.spy(register_event_listener_spy).was.called_with('addon command', match._)
         end)
 
-        it('should register the handle_addon_command function as the callback', function ()
+        it('registers the handle_addon_command function as the callback', function ()
 
             local register_event_listener_spy = spy.on(_G.windower, 'register_event')
             local addon = get_addon()
@@ -114,13 +114,13 @@ describe('FarmBuddy', function ()
 
     describe('handle_incoming_text()', function ()
 
-        it('should return false if the text argument is an empty string', function ()
+        it('returns false if the text argument is an empty string', function ()
 
             local addon = get_addon()
             assert.is.equal(addon.handle_incoming_message(_, ''), false)
         end)
 
-        it('should store kill information when a kill confirmtion message is handled', function ()
+        it('stores kill information when a kill confirmtion message is handled', function ()
 
             local addon = get_addon()
             addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
@@ -133,7 +133,7 @@ describe('FarmBuddy', function ()
             })
         end)
 
-        it('should increment the kill count of multiple kills of the same monster', function ()
+        it('increments the kill count of multiple kills of the same monster', function ()
 
             local addon = get_addon()
             addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
@@ -147,7 +147,7 @@ describe('FarmBuddy', function ()
             })
         end)
 
-        it('should store different monster type kills', function ()
+        it('stores different monster type kills', function ()
 
             local addon = get_addon()
             addon.handle_incoming_message(_, 'Xurion defeats the MonsterA.')
@@ -166,7 +166,7 @@ describe('FarmBuddy', function ()
             })
         end)
 
-        it('should store drop information when a drop message is handled', function ()
+        it('stores drop information when a drop message is handled', function ()
 
             local addon = get_addon()
             addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
@@ -185,7 +185,7 @@ describe('FarmBuddy', function ()
 
     describe('handle_addon_command()', function ()
 
-        it('should reset farm_data when the command argument is reset', function ()
+        it('resets farm_data when the command argument is reset', function ()
 
             local addon = get_addon()
             addon.farm_data = {'mock data'}
@@ -195,7 +195,18 @@ describe('FarmBuddy', function ()
             assert.is.same(addon.farm_data, {})
         end)
 
-        it('should report a kill when the command argument is report', function ()
+        it('informs the player if there is nothing to report when the command argument is report', function ()
+
+            local addon = get_addon()
+            addon.farm_data = {}
+            local send_text_to_game_spy = spy.on(addon, 'send_text_to_game')
+
+            addon.handle_addon_command('report')
+
+            assert.spy(send_text_to_game_spy).was.called_with('No data to report')
+        end)
+
+        it('reports a kill when the command argument is report', function ()
 
             local addon = get_addon()
             addon.farm_data = {
@@ -212,7 +223,7 @@ describe('FarmBuddy', function ()
             assert.spy(send_text_to_game_spy).was.called_with('Monster: 1 kill')
         end)
 
-        it('should report multiple kills when the command argument is report', function ()
+        it('reports multiple kills when the command argument is report', function ()
 
             local addon = get_addon()
             addon.farm_data = {
@@ -229,7 +240,7 @@ describe('FarmBuddy', function ()
             assert.spy(send_text_to_game_spy).was.called_with('Monster: 2 kills')
         end)
 
-        it('should report multiple numbers of kills when the command argument is report', function ()
+        it('reports multiple numbers of kills when the command argument is report', function ()
 
             local addon = get_addon()
             addon.farm_data = {
@@ -252,7 +263,7 @@ describe('FarmBuddy', function ()
             assert.spy(send_text_to_game_spy).was.called_with('MonsterB: 1 kill')
         end)
 
-        it('should report numbers of drops and drop rate percentage when the command argument is report', function ()
+        it('reports numbers of drops and drop rate percentage when the command argument is report', function ()
 
             local addon = get_addon()
             addon.farm_data = {
@@ -279,7 +290,7 @@ describe('FarmBuddy', function ()
             assert.spy(send_text_to_game_spy).was.called_with(' > Crystal: 1/2 (50.0%)')
         end)
 
-        it('should provide kill and drop data in a readable order when the command argument is report', function ()
+        it('provides kill and drop data in a readable order when the command argument is report', function ()
 
             local addon = get_addon()
             addon.farm_data = {
@@ -307,7 +318,7 @@ describe('FarmBuddy', function ()
             assert.is.equal(sent_chats[4], ' > Crystal: 1/2 (50.0%)')
         end)
 
-        it('should execute the pause function if the command argument is pause', function ()
+        it('executes the pause function if the command argument is pause', function ()
 
             local addon = get_addon()
             local pause_spy = spy.on(addon, 'pause')
@@ -317,7 +328,7 @@ describe('FarmBuddy', function ()
             assert.spy(pause_spy).was.called(1)
         end)
 
-        it('should execute the resume function if the command argument is resume', function ()
+        it('executes the resume function if the command argument is resume', function ()
 
             local addon = get_addon()
             local resume_spy = spy.on(addon, 'resume')
@@ -327,7 +338,7 @@ describe('FarmBuddy', function ()
             assert.spy(resume_spy).was.called(1)
         end)
 
-        it('should provide the status if the command argument is status', function ()
+        it('provides the status if the command argument is status', function ()
 
             local addon = get_addon()
             local send_text_to_game_spy = spy.on(addon, 'send_text_to_game')
@@ -340,7 +351,7 @@ describe('FarmBuddy', function ()
 
     describe('pause()', function ()
 
-        it('should set the status to paused', function ()
+        it('sets the status to paused', function ()
 
             local addon = get_addon()
             addon.pause()
@@ -348,7 +359,7 @@ describe('FarmBuddy', function ()
             assert.is.equal(addon.status, 'paused')
         end)
 
-        it('should not track kills after paused', function ()
+        it('does not track kills after paused', function ()
 
             local addon = get_addon()
             addon.pause()
@@ -361,7 +372,7 @@ describe('FarmBuddy', function ()
 
     describe('resume()', function ()
 
-        it('should set the status to running', function ()
+        it('sets the status to running', function ()
 
             local addon = get_addon()
             addon.status = 'mock'
@@ -370,7 +381,7 @@ describe('FarmBuddy', function ()
             assert.is.equal(addon.status, 'running')
         end)
 
-        it('should continue to track kills after resuming', function ()
+        it('continues to track kills after resuming', function ()
 
             local addon = get_addon()
             addon.status = 'paused'
