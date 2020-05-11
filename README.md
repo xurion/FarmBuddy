@@ -6,7 +6,7 @@ _Note: This was one of my first addons and was used as a learning experience. Th
 
 Abbreviation: //fb, //farmbuddy
 
-## Commands
+## Commands
 
 ### report
 
