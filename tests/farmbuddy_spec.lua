@@ -84,12 +84,12 @@ describe('FarmBuddy', function ()
             assert.spy(register_event_listener_spy).was.called_with('incoming text', match._)
         end)
 
-        it('registers the handle_incoming_message function as the callback', function ()
+        it('registers the handle_incoming_text function as the callback', function ()
 
             local register_event_listener_spy = spy.on(_G.windower, 'register_event')
             local addon = get_addon()
 
-            assert.spy(register_event_listener_spy).was.called_with(match._, addon.handle_incoming_message)
+            assert.spy(register_event_listener_spy).was.called_with(match._, addon.handle_incoming_text)
         end)
     end)
 
@@ -114,16 +114,41 @@ describe('FarmBuddy', function ()
 
     describe('handle_incoming_text()', function ()
 
-        it('returns false if the text argument is an empty string', function ()
+        it('returns nil if the text argument is an empty string', function ()
 
             local addon = get_addon()
-            assert.is.equal(addon.handle_incoming_message(_, ''), false)
+            assert.is.equal(addon.handle_incoming_text(_, ''), nil)
+        end)
+
+        it('returns nil if the addon status is paused', function ()
+
+            local addon = get_addon()
+            addon.pause()
+            assert.is.equal(addon.handle_incoming_text(_, 'something'), nil)
+        end)
+
+        it('returns true if the text matches a kill message', function ()
+
+            local addon = get_addon()
+            assert.is.equal(addon.handle_incoming_text(_, 'Xurion defeats the mob.'), true)
+        end)
+
+        it('returns true if the text matches an item found message', function ()
+
+            local addon = get_addon()
+            assert.is.equal(addon.handle_incoming_text(_, 'You find an thing on the mob.'), true)
+        end)
+
+        it('returns false if the text does not match an item found or a kill message', function ()
+
+            local addon = get_addon()
+            assert.is.equal(addon.handle_incoming_text(_, 'some other message'), false)
         end)
 
         it('stores kill information when a kill confirmtion message is handled', function ()
 
             local addon = get_addon()
-            addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
+            addon.handle_incoming_text(_, 'Xurion defeats the Monster.')
             assert.is.same(addon.farm_data, {
                 [1] = {
                     name = 'Monster',
@@ -136,8 +161,8 @@ describe('FarmBuddy', function ()
         it('increments the kill count of multiple kills of the same monster', function ()
 
             local addon = get_addon()
-            addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
-            addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
+            addon.handle_incoming_text(_, 'Xurion defeats the Monster.')
+            addon.handle_incoming_text(_, 'Xurion defeats the Monster.')
             assert.is.same(addon.farm_data, {
                 [1] = {
                     name = 'Monster',
@@ -150,8 +175,8 @@ describe('FarmBuddy', function ()
         it('stores different monster type kills', function ()
 
             local addon = get_addon()
-            addon.handle_incoming_message(_, 'Xurion defeats the MonsterA.')
-            addon.handle_incoming_message(_, 'Xurion defeats the MonsterB.')
+            addon.handle_incoming_text(_, 'Xurion defeats the MonsterA.')
+            addon.handle_incoming_text(_, 'Xurion defeats the MonsterB.')
             assert.is.same(addon.farm_data, {
                 [1] = {
                     name = 'MonsterA',
@@ -169,8 +194,8 @@ describe('FarmBuddy', function ()
         it('stores drop information when a drop message is handled', function ()
 
             local addon = get_addon()
-            addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
-            addon.handle_incoming_message(_, 'You find a Crystal on the Monster.')
+            addon.handle_incoming_text(_, 'Xurion defeats the Monster.')
+            addon.handle_incoming_text(_, 'You find a Crystal on the Monster.')
             assert.is.same(addon.farm_data, {
                 [1] = {
                     name = 'Monster',
@@ -363,8 +388,8 @@ describe('FarmBuddy', function ()
 
             local addon = get_addon()
             addon.pause()
-            addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
-            addon.handle_incoming_message(_, 'You find a Crystal on the Monster.')
+            addon.handle_incoming_text(_, 'Xurion defeats the Monster.')
+            addon.handle_incoming_text(_, 'You find a Crystal on the Monster.')
 
             assert.is.same(addon.farm_data, {})
         end)
@@ -386,7 +411,7 @@ describe('FarmBuddy', function ()
             local addon = get_addon()
             addon.status = 'paused'
             addon.resume()
-            addon.handle_incoming_message(_, 'Xurion defeats the Monster.')
+            addon.handle_incoming_text(_, 'Xurion defeats the Monster.')
 
             assert.is.same(addon.farm_data, {
                 [1] = {

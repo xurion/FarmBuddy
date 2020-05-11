@@ -52,7 +52,7 @@ function getExistingDataKey(mob_name)
     return false
 end
 
-FarmBuddy.handle_incoming_message = function (_, text)
+FarmBuddy.handle_incoming_text = function (_, text)
     if text == '' or FarmBuddy.status == 'paused' then return end
 
     local kill_confirmation_regex = 'Xurion defeats the (.*)%.'
@@ -70,7 +70,7 @@ FarmBuddy.handle_incoming_message = function (_, text)
             FarmBuddy.farm_data[key].kills = FarmBuddy.farm_data[key].kills + 1
         end
 
-        --TODO can return here to prevent the regex processing for the next if
+        return true
     end
 
     local drop_confirmation_regex = 'You find an? (.*) on the (.*)%.'
@@ -86,7 +86,10 @@ FarmBuddy.handle_incoming_message = function (_, text)
                 FarmBuddy.farm_data[key].drops[drop_name] = 1
             end
         end
+        return true
     end
+
+    return false
 end
 
 --TODO implement commands table pattern from EmpyPopTracker
@@ -146,7 +149,7 @@ FarmBuddy.send_text_to_game = function (text)
     windower.add_to_chat(7, text)
 end
 
-windower.register_event('incoming text', FarmBuddy.handle_incoming_message)
+windower.register_event('incoming text', FarmBuddy.handle_incoming_text)
 windower.register_event('addon command', FarmBuddy.handle_addon_command)
 
 return FarmBuddy
