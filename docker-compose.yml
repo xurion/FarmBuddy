@@ -1,0 +1,6 @@
+version: "3"
+services:
+  tests:
+    image: xurion/busted-runner
+    volumes:
+      - .:/app
