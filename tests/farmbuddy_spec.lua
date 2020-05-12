@@ -136,7 +136,7 @@ describe('FarmBuddy', function ()
         it('returns true if the text matches an item found message', function ()
 
             local addon = get_addon()
-            assert.is.equal(addon.handle_incoming_text(_, 'You find an thing on the mob.'), true)
+            assert.is.equal(addon.handle_incoming_text(_, 'You find a thing on the mob.'), true)
         end)
 
         it('returns false if the text does not match an item found or a kill message', function ()
@@ -145,7 +145,7 @@ describe('FarmBuddy', function ()
             assert.is.equal(addon.handle_incoming_text(_, 'some other message'), false)
         end)
 
-        it('stores kill information when a kill confirmtion message is handled', function ()
+        it('stores kill information when a kill confirmation message is handled', function ()
 
             local addon = get_addon()
             addon.handle_incoming_text(_, 'Xurion defeats the Monster.')
